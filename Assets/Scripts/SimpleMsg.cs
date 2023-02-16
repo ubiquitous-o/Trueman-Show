@@ -40,6 +40,5 @@ public class SimpleMsg : MonoBehaviour
         msgFormat.superMsg = superMsg;
         msgFormat.isOwner = isOwner;
         m.SwitchCmd(msgFormat);
-        Debug.Log(msgFormat);
     }
 }

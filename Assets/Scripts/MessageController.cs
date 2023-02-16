@@ -2,16 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MessageController : MonoBehaviour
 {
     int MAX_FOV = 100;
-    int MIN_FOV = 20;
+    int MIN_FOV = 10;
     int DEFAULT_FOV = 60;
     int FOV_DURATION = 10;
     int FOV_STEP = 1;
 
-    int ROT_DURATION = 10;
+    int ROT_DURATION = 5;
     int ROT_STEP = 1;
 
     Quaternion[] DEFAULT_CAM_ROT;
@@ -31,9 +32,12 @@ public class MessageController : MonoBehaviour
     private bool is_cam_moving = false;
 
     [SerializeField]
-    GameObject phoneUI;
+    GameObject chatPrefab;
+    [SerializeField]
+    GameObject chatContent;
 
-    private MainUIView mainUIView;
+    [SerializeField]
+    RawImage mainCamImage;
 
     private enum CamZoom{
         IN, OUT
@@ -43,8 +47,6 @@ public class MessageController : MonoBehaviour
     }
 
     void Start(){
-        mainUIView = phoneUI.GetComponent<MainUIView>();
-
         cams = new GameObject[]{cam0,cam1,cam2,cam3};
         DEFAULT_CAM_ROT = new Quaternion[cams.Length];
         for (int i = 0; i < cams.Length; i++){
@@ -61,7 +63,7 @@ public class MessageController : MonoBehaviour
             // cameraのスイッチ
             case "%switch":
                 cam_cursor ++;
-                Debug.Log(cam_cursor);
+                Debug.Log("cam cursor = " +cam_cursor);
                 if(cam_cursor == cams.Length){
                     cam_cursor = 0;
                     SwitchCAM(cam_cursor);
@@ -99,6 +101,15 @@ public class MessageController : MonoBehaviour
                 obj.AddComponent<TextObject>();               
                 break;
             
+            // カメラの設定を初期状態にリセット
+            case "%reset":
+                for(int i = 0; i < cams.Length; i++){
+                    cams[i].GetComponent<Camera>().fieldOfView = DEFAULT_FOV;
+                    cams[i].transform.rotation = DEFAULT_CAM_ROT[i];
+                    StartCoroutine(StartAllGlitch(cams));
+                }
+                break;
+            
             // UIのchat欄に追加
             default:
                 if(!data.isOwner){
@@ -108,25 +119,51 @@ public class MessageController : MonoBehaviour
                         nonusable.AddComponent<TextObject>();
                     }
                     else{
-                        mainUIView.UpdateChatText(data.msg);
+                        CreateChatNode(data.user, data.msg);
                     }
                 }
                 break;
         }
     }
 
-    private void SwitchCAM(int cursor){
-        for(int i = 0; i < cams.Length; i++){
-            if (i == cursor){
-                cams[i].SetActive(true);
-            }
-            else{
-                cams[i].SetActive(false);
+    private void CreateChatNode(string name, string msg){
+        var chatNode = Instantiate<GameObject>(chatPrefab, chatContent.transform, false);
+        chatNode.GetComponent<ChatNode>().Init(name, msg);
+    }
 
-                //現在activeでないカメラはデフォルト状態に戻す。
-                cams[i].GetComponent<Camera>().fieldOfView = DEFAULT_FOV;
-                cams[i].transform.rotation = DEFAULT_CAM_ROT[i];
-            }
+    private void SwitchCAM(int cursor){
+        mainCamImage.texture = cams[cursor].GetComponent<Camera>().targetTexture;
+        StartCoroutine(StartGlitch(cams, cursor));
+    }
+    private IEnumerator StartAllGlitch(GameObject[] cams){
+        for(int i = 0; i < cams.Length; i++){
+            cams[i].GetComponent<GlitchEffect>().flipIntensity = 1;
+        }
+        yield return new WaitForSeconds(2.0f);
+        for(int i = 0; i < cams.Length; i++){
+            cams[i].GetComponent<GlitchEffect>().flipIntensity = 0;
+        }
+
+    }
+    private IEnumerator StartGlitch(GameObject[] cams, int cursor){
+
+        cams[cursor].GetComponent<GlitchEffect>().flipIntensity = 1;
+        if(cursor == 0){
+            cams[cams.Length-1].GetComponent<GlitchEffect>().flipIntensity = 1;
+        }
+        else{
+            cams[cursor -1].GetComponent<GlitchEffect>().flipIntensity = 1;
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
+
+        cams[cursor].GetComponent<GlitchEffect>().flipIntensity = 0;
+        if(cursor == 0){
+            cams[cams.Length-1].GetComponent<GlitchEffect>().flipIntensity = 0;
+        }
+        else{
+            cams[cursor -1].GetComponent<GlitchEffect>().flipIntensity = 0;
         }
     }
     private IEnumerator ZoomCAM(int cam_cursor, CamZoom direction){

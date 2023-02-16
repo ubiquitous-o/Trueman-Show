@@ -21,9 +21,10 @@ public class ButtonDrawer : PropertyDrawer
                MethodInfo method = property.serializedObject.targetObject.GetType().GetMethod(buttonAttribute.methodName);
                method.Invoke(property.serializedObject.targetObject, null);
            }
-           catch
+           catch (System.Exception e)
            {
-               Debug.Log(buttonAttribute.methodName + " を実行できません");
+                Debug.Log(e);
+                Debug.Log(buttonAttribute.methodName + " を実行できません");
            }
 
        }

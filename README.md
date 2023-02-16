@@ -1,4 +1,4 @@
-# Trueman show for unity
+# Truman show for unity
 https://user-images.githubusercontent.com/94826480/219315216-b284ef51-c99b-4e91-b932-936f25db9f96.mp4
 ## What is this?
 - This is a personal project that manipulating 3D space using Youtube Live chat message as a command.

@@ -57,7 +57,7 @@ public class MessageController : MonoBehaviour
 
     void Start(){
         imageQuadController = imageQuad.GetComponent<ImageQuadController>();
-        
+
         cams = new GameObject[]{cam0,cam1,cam2,cam3};
         DEFAULT_CAM_ROT = new Quaternion[cams.Length];
         for (int i = 0; i < cams.Length; i++){
@@ -122,6 +122,10 @@ public class MessageController : MonoBehaviour
             case "%img":
                 StartCoroutine(imageQuadController.ShowImage(msgs[1]));
                 break;
+            
+            case "%resetimg":
+                imageQuadController.ResetImage();
+                break;
 
             // 初期状態にリセット
             case "%reset":
@@ -129,7 +133,6 @@ public class MessageController : MonoBehaviour
                     
                     cams[i].GetComponent<Camera>().fieldOfView = DEFAULT_FOV;
                     cams[i].transform.rotation = DEFAULT_CAM_ROT[i];
-                    imageQuadController.ResetImage();
 
                     StartCoroutine(AllGlitch(cams));
                 }

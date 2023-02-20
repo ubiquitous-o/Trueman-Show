@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class MessageController : MonoBehaviour
 {
@@ -43,6 +45,9 @@ public class MessageController : MonoBehaviour
     GameObject switchNoise;
     [SerializeField]
     GameObject radio;
+    [SerializeField]
+    GameObject imageQuad;
+    ImageQuadController imageQuadController;
     private enum CamZoom{
         IN, OUT
     }
@@ -51,6 +56,8 @@ public class MessageController : MonoBehaviour
     }
 
     void Start(){
+        imageQuadController = imageQuad.GetComponent<ImageQuadController>();
+        
         cams = new GameObject[]{cam0,cam1,cam2,cam3};
         DEFAULT_CAM_ROT = new Quaternion[cams.Length];
         for (int i = 0; i < cams.Length; i++){
@@ -110,13 +117,21 @@ public class MessageController : MonoBehaviour
                 // StartCoroutine(PlayRadio(msgs[1]));
                 radio.GetComponent<AudioSource>().Play();
                 break;
+            
+            // Quadに画像を表示
+            case "%img":
+                StartCoroutine(imageQuadController.ShowImage(msgs[1]));
+                break;
 
-            // カメラの設定を初期状態にリセット
+            // 初期状態にリセット
             case "%reset":
                 for(int i = 0; i < cams.Length; i++){
+                    
                     cams[i].GetComponent<Camera>().fieldOfView = DEFAULT_FOV;
                     cams[i].transform.rotation = DEFAULT_CAM_ROT[i];
-                    StartCoroutine(StartAllGlitch(cams));
+                    imageQuadController.ResetImage();
+
+                    StartCoroutine(AllGlitch(cams));
                 }
                 break;
             
@@ -125,7 +140,7 @@ public class MessageController : MonoBehaviour
                 if(!data.isOwner){
                     if(data.msg.StartsWith("%")){
                         //使えないコマンド
-                        var nonusable = FlyingText.GetObject(data.msg + "は使えません。");
+                        var nonusable = FlyingText.GetObject(data.msg + "は有効なコマンドではありません");
                         nonusable.AddComponent<TextObject>();
                     }
                     else{
@@ -135,6 +150,7 @@ public class MessageController : MonoBehaviour
                 break;
         }
     }
+
 
     //TODO: web上からストリーミングできるようにする
     private IEnumerator PlayRadio(string url)
@@ -155,7 +171,7 @@ public class MessageController : MonoBehaviour
         mainCamImage.texture = cams[cursor].GetComponent<Camera>().targetTexture;
         SwitchAudio(cams, cursor);
         switchNoise.GetComponent<AudioSource>().Play();
-        StartCoroutine(StartGlitch(cams, cursor));
+        StartCoroutine(SwitchGlitch(cams, cursor));
     }
     private void SwitchAudio(GameObject[] cams, int cursor){
         for(int i = 0; i < cams.Length; i++){
@@ -167,7 +183,7 @@ public class MessageController : MonoBehaviour
             }
         }
     }
-    private IEnumerator StartAllGlitch(GameObject[] cams){
+    private IEnumerator AllGlitch(GameObject[] cams){
         for(int i = 0; i < cams.Length; i++){
             cams[i].GetComponent<GlitchEffect>().flipIntensity = 1;
         }
@@ -178,7 +194,7 @@ public class MessageController : MonoBehaviour
         }
 
     }
-    private IEnumerator StartGlitch(GameObject[] cams, int cursor){
+    private IEnumerator SwitchGlitch(GameObject[] cams, int cursor){
 
         cams[cursor].GetComponent<GlitchEffect>().flipIntensity = 1;
         if(cursor == 0){

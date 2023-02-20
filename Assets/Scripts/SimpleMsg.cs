@@ -9,7 +9,7 @@ public class SimpleMsg : MonoBehaviour
     string user;
     [SerializeField,TextArea(1,10)]
     string msg;
-
+    
     [SerializeField]
     bool isSuper;
 

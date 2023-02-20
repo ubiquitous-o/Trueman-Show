@@ -105,13 +105,12 @@ public class ChatNode : MonoBehaviour
             }
         }
         var color = new Color32((byte)r, (byte)g, (byte)b, 255);
-        Debug.Log(color);
         return color;
     }
     void Update(){
         var pos = this.gameObject.GetComponent<RectTransform>().position;
         //TODO: もうちょっといい感じに消す処理したい。
-        if(pos.y > 1400){
+        if(pos.y > 120){
             Destroy(this.gameObject);
         }
     }

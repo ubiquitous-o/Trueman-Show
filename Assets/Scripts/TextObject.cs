@@ -14,18 +14,18 @@ public class TextObject : MonoBehaviour
 
         int rndy = Random.Range(0, 8);
         int rndz = Random.Range(4, 12);
-        this.gameObject.transform.position = new Vector3(-15.0f, rndy, rndz);
+        this.gameObject.transform.position = new Vector3(5.0f, rndy, rndz);
         this.gameObject.transform.rotation = new Quaternion(0,0,0,0);
         this.gameObject.transform.localScale = new Vector3(2,2,2);
         this.gameObject.layer = 8;
-        Destroy(this.gameObject, 10.0f);
+        Destroy(this.gameObject, 20.0f);
 
     }
 
     void Update()
     {
         var pos = this.gameObject.transform.position;
-        pos.x += 0.03f;
+        pos.x -= 0.03f;
         this.gameObject.transform.position = pos;
     }
 

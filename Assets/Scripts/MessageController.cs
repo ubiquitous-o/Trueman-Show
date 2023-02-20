@@ -8,7 +8,7 @@ public class MessageController : MonoBehaviour
 {
     int MAX_FOV = 100;
     int MIN_FOV = 10;
-    int DEFAULT_FOV = 60;
+    int DEFAULT_FOV = 70;
     int FOV_DURATION = 10;
     int FOV_STEP = 1;
 
@@ -39,6 +39,10 @@ public class MessageController : MonoBehaviour
     [SerializeField]
     RawImage mainCamImage;
 
+    [SerializeField]
+    GameObject switchNoise;
+    [SerializeField]
+    GameObject radio;
     private enum CamZoom{
         IN, OUT
     }
@@ -100,7 +104,13 @@ public class MessageController : MonoBehaviour
                 var obj = FlyingText.GetObject(msgs[1]);
                 obj.AddComponent<TextObject>();               
                 break;
-            
+
+            // ラジオを再生
+            case "%radio":
+                // StartCoroutine(PlayRadio(msgs[1]));
+                radio.GetComponent<AudioSource>().Play();
+                break;
+
             // カメラの設定を初期状態にリセット
             case "%reset":
                 for(int i = 0; i < cams.Length; i++){
@@ -126,6 +136,16 @@ public class MessageController : MonoBehaviour
         }
     }
 
+    //TODO: web上からストリーミングできるようにする
+    private IEnumerator PlayRadio(string url)
+    {
+        WWW www = new WWW(url);
+        yield return www;
+        var audio = radio.GetComponent<AudioSource>();
+        audio.clip = www.GetAudioClip(false, true);
+        audio.Play();
+    }
+
     private void CreateChatNode(string name, string msg){
         var chatNode = Instantiate<GameObject>(chatPrefab, chatContent.transform, false);
         chatNode.GetComponent<ChatNode>().Init(name, msg);
@@ -133,15 +153,28 @@ public class MessageController : MonoBehaviour
 
     private void SwitchCAM(int cursor){
         mainCamImage.texture = cams[cursor].GetComponent<Camera>().targetTexture;
+        SwitchAudio(cams, cursor);
+        switchNoise.GetComponent<AudioSource>().Play();
         StartCoroutine(StartGlitch(cams, cursor));
+    }
+    private void SwitchAudio(GameObject[] cams, int cursor){
+        for(int i = 0; i < cams.Length; i++){
+            if(i == cursor){
+                cams[i].GetComponent<AudioListener>().enabled = true;
+            }
+            else{
+                cams[i].GetComponent<AudioListener>().enabled = false;
+            }
+        }
     }
     private IEnumerator StartAllGlitch(GameObject[] cams){
         for(int i = 0; i < cams.Length; i++){
             cams[i].GetComponent<GlitchEffect>().flipIntensity = 1;
         }
+        switchNoise.GetComponent<AudioSource>().Play();
         yield return new WaitForSeconds(2.0f);
         for(int i = 0; i < cams.Length; i++){
-            cams[i].GetComponent<GlitchEffect>().flipIntensity = 0;
+            cams[i].GetComponent<GlitchEffect>().flipIntensity = 0.2f;
         }
 
     }
@@ -158,12 +191,12 @@ public class MessageController : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
 
 
-        cams[cursor].GetComponent<GlitchEffect>().flipIntensity = 0;
+        cams[cursor].GetComponent<GlitchEffect>().flipIntensity = 0.2f;
         if(cursor == 0){
-            cams[cams.Length-1].GetComponent<GlitchEffect>().flipIntensity = 0;
+            cams[cams.Length-1].GetComponent<GlitchEffect>().flipIntensity = 0.2f;
         }
         else{
-            cams[cursor -1].GetComponent<GlitchEffect>().flipIntensity = 0;
+            cams[cursor -1].GetComponent<GlitchEffect>().flipIntensity = 0.2f;
         }
     }
     private IEnumerator ZoomCAM(int cam_cursor, CamZoom direction){

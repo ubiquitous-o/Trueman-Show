@@ -139,15 +139,18 @@ public class MessageController : MonoBehaviour
                 break;
             
             // オハナシさんのchat欄に追加
+            case "%chat":
+                    CreateChatNode(data.user, msgs[1]);
+                break;
+
+            
             default:
                 if(data.msg.StartsWith("%") || data.msg.StartsWith("％") ){
                     //使えないコマンド
                     var nonusable = FlyingText.GetObject(data.msg + "は有効なコマンドではありません");
                     nonusable.AddComponent<TextObject>();
                 }
-                else{
-                    CreateChatNode(data.user, data.msg);
-                }
+                // CreateChatNode(data.user, data.msg);
                 break;
         }
     }

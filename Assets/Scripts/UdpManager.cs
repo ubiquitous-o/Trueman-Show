@@ -35,7 +35,10 @@ public class UdpManager : MonoBehaviour
         subject
            .ObserveOnMainThread()
            .Subscribe(data => {
-                messageController.SwitchCmd(data);
+                //Owner以外のコメントを利用
+                if(!data.isOwner){
+                    messageController.SwitchCmd(data);
+                }
            }).AddTo(this);
     }
 

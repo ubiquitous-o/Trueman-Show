@@ -21,13 +21,11 @@ public class SimpleMsg : MonoBehaviour
     [SerializeField]
     bool isOwner;
 
-
     [Button("Send")]
     public bool sendbutton;
-    
+
     MessageController m;
-    
-    
+
     void Start(){
         m = GetComponent<MessageController>();
     }

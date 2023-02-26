@@ -47,7 +47,10 @@ public class MessageController : MonoBehaviour
     GameObject radio;
     [SerializeField]
     GameObject imageQuad;
+    [SerializeField]
+    GameObject tvQuad;
     ImageQuadController imageQuadController;
+    TVGraphic tvGraphic;
     private enum CamZoom{
         IN, OUT
     }
@@ -57,6 +60,7 @@ public class MessageController : MonoBehaviour
 
     void Start(){
         imageQuadController = imageQuad.GetComponent<ImageQuadController>();
+        tvGraphic = tvQuad.GetComponent<TVGraphic>();
 
         cams = new GameObject[]{cam0,cam1,cam2,cam3};
         DEFAULT_CAM_ROT = new Quaternion[cams.Length];
@@ -140,9 +144,13 @@ public class MessageController : MonoBehaviour
             
             // オハナシさんのchat欄に追加
             case "%chat":
-                    CreateChatNode(data.user, msgs[1]);
+                CreateChatNode(data.user, msgs[1]);
                 break;
 
+            // テレビにグラフィックを表示
+            case "%tv":
+                StartCoroutine(tvGraphic.Draw());
+                break;
             
             default:
                 if(data.msg.StartsWith("%") || data.msg.StartsWith("％") ){

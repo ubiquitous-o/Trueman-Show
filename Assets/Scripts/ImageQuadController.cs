@@ -37,7 +37,7 @@ public class ImageQuadController : MonoBehaviour
             {
                 //イメージサイズのほうが横に長い場合
                 imageQuad.GetComponent<Renderer>().material.SetTextureScale("_MainTex", new Vector2(aspectRatio_Obj / aspectRatio_Img, 1f));
-                imageQuad.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2(   (Img_x-(Obj_x*Img_y/Obj_y))/(2*Img_x)         , 1f));
+                imageQuad.GetComponent<Renderer>().material.SetTextureOffset("_MainTex", new Vector2((Img_x-(Obj_x*Img_y/Obj_y))/(2*Img_x), 1f));
             }
             else
             {

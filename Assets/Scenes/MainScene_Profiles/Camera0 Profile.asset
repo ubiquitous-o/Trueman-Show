@@ -22,7 +22,7 @@ MonoBehaviour:
     defaultState: 1
   intensity:
     overrideState: 1
-    value: 0.44
+    value: 0.8
   fastMode:
     overrideState: 1
     value: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 50.75
+    value: 65.72
   intensityX:
     overrideState: 1
     value: 1
@@ -78,7 +78,7 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 21.87
+    value: 50.4
   threshold:
     overrideState: 1
     value: 0.9

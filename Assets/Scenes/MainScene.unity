@@ -918,8 +918,8 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 17.5
-  m_SpotAngle: 80
+  m_Range: 10
+  m_SpotAngle: 60
   m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
@@ -3563,9 +3563,9 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.85898006, g: 0.8901421, b: 0.9150943, a: 1}
   m_Intensity: 1
-  m_Range: 17.5
-  m_SpotAngle: 80
-  m_InnerSpotAngle: 8
+  m_Range: 10
+  m_SpotAngle: 60
+  m_InnerSpotAngle: 6
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -4002,7 +4002,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.9029459, g: 0.9388547, b: 0.9716981, a: 1}
-  m_Intensity: 0.6
+  m_Intensity: 0.35
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -5436,9 +5436,9 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
-  m_Range: 17.5
-  m_SpotAngle: 80
-  m_InnerSpotAngle: 8
+  m_Range: 10
+  m_SpotAngle: 60
+  m_InnerSpotAngle: 6
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -6720,8 +6720,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam0: {fileID: 963194225}
   cam1: {fileID: 1852123354}
-  cam2: {fileID: 1078650100}
-  cam3: {fileID: 1079315403}
+  cam2: {fileID: 1079315403}
+  cam3: {fileID: 1078650100}
   chatPrefab: {fileID: 146705178743302178, guid: 5864a0ffb66973a4d8b2c9ea0bf46e08, type: 3}
   chatContent: {fileID: 112461251}
   mainCamImage: {fileID: 629545572}

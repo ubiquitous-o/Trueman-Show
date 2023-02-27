@@ -111,16 +111,16 @@ public class MessageController : MonoBehaviour
             //     break;
 
             // テキストをobj化
-            case "%obj":
+            case "%text":
                 var obj = FlyingText.GetObject(msgs[1]);
                 obj.AddComponent<TextObject>();               
                 break;
 
             // ラジオを再生
-            case "%radio":
-                // StartCoroutine(PlayRadio(msgs[1]));
-                radio.GetComponent<AudioSource>().Play();
-                break;
+            // case "%radio":
+            //     // StartCoroutine(PlayRadio(msgs[1]));
+            //     radio.GetComponent<AudioSource>().Play();
+            //     break;
             
             // Quadに画像を表示
             case "%img":

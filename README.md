@@ -7,7 +7,7 @@
 - This project uses [this repo](https://github.com/ubiquitous-o/YoutubeLive_API) and [YoutubeDataAPI](https://developers.google.com/youtube/v3/live/docs/liveChatMessages) to get live chats.
 
 ## How to use
-- If you want to use this, download this [files](https://drive.google.com/file/d/1oMDQD4HszbYO2ztJDCFSvW0-5vlSlYnw/view?usp=sharing), and put it on "Assets/StoredData".
+- If you want to use this, download this [files](https://drive.google.com/file/d/1-kA-3ozpgz8dqDE4rz8L3z-QZ6j4mlcf/view?usp=sharing), and put it on "Assets/StoredData".
 
 ## Command
 | cmd | desc |

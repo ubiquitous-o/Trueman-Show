@@ -76,7 +76,8 @@ public class AnimationManager : MonoBehaviour
                     Debug.Log("arrive");
                     break;
                 case GOALS.BIKE:
-                    animator.SetTrigger("Bike");
+                    // animator.SetTrigger("Bike");
+                    animator.SetTrigger("SitFloor");
                     bikePosition.SetActive(false);
                     Debug.Log("arrive");
                     break;

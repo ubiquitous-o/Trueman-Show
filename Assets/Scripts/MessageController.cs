@@ -97,18 +97,18 @@ public class MessageController : MonoBehaviour
                 break;
             
             // activeなカメラの方向を操作する。
-            case "%right":
-                if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.RIGHT));
-                break;
-            case "%left":
-                if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.LEFT));
-                break;
-            case "%up":
-                if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.UP));
-                break;
-            case "%down":
-                if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.DOWN));
-                break;
+            // case "%right":
+            //     if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.RIGHT));
+            //     break;
+            // case "%left":
+            //     if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.LEFT));
+            //     break;
+            // case "%up":
+            //     if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.UP));
+            //     break;
+            // case "%down":
+            //     if(!is_cam_moving)StartCoroutine(RotCAM(cam_cursor, CamDirection.DOWN));
+            //     break;
 
             // テキストをobj化
             case "%obj":
@@ -132,11 +132,11 @@ public class MessageController : MonoBehaviour
                 break;
 
             // 初期状態にリセット
-            case "%reset":
+            case "%resetcam":
                 for(int i = 0; i < cams.Length; i++){
                     
                     cams[i].GetComponent<Camera>().fieldOfView = DEFAULT_FOV;
-                    cams[i].transform.rotation = DEFAULT_CAM_ROT[i];
+                    // cams[i].transform.rotation = DEFAULT_CAM_ROT[i];
 
                     StartCoroutine(AllGlitch(cams));
                 }
